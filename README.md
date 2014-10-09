@@ -41,7 +41,7 @@ Yes, yes it is. Yes, yes I have.
 
 *You're a bad, bad man.*
 
-And when you've never ripped a CD, de-DRMed an e-book, music, video, or other media file, run a pirated version of a game that you bought so that SecureROM or other copy-protection wouldn't break, slow, etc., your computer, removed the spy/adware that came packaged with some free software, or run a web-based ad-blocker, you can get back to me on the morality of patching your way around things you find inconvenient.
+And when you've never ripped a CD, de-DRMed an e-book, music, video, or other media file, run a pirated version of a game that you bought so that SecureROM or other copy-protection wouldn't break, slow, etc., your computer, removed the spy/adware that came packaged with some free software, or run a web-based ad-blocker, you can get back to me on the morality of patching your way around things you find inconvenient and the obligation to always honor the supplier's intentions.
 
 *That's completely different!*
 
