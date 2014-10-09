@@ -43,7 +43,7 @@ namespace Arkane.KSP.X64Unfixer
             // So now I have to do this brute-force crap instead.
             // For science. You monster.
 
-            try
+            //try
             {
                 // Iterate through every single type in the module.
                 foreach (var td in assembly.MainModule.Types)
@@ -52,11 +52,17 @@ namespace Arkane.KSP.X64Unfixer
 
                     bool updatedMethod = false;
 
+                    if (!td.IsClass)
+                        continue;
+
                     // Iterate through every single method in the type.
                     // This includes constructors, property implementors, etc.
                     foreach (var md in td.Methods)
                     {
                         Console.WriteLine ("  Examining method: {0}", md.Name);
+
+                        if (!md.HasBody)
+                            continue;
 
                         // Examine their IL.
                         var ilp = md.Body.GetILProcessor ();
@@ -68,6 +74,7 @@ namespace Arkane.KSP.X64Unfixer
                             if ((fe.OpCode == OpCodes.Call) &&
                                 (fe.Operand != null) &&
                                 (((MethodReference) fe.Operand).Name == "get_Size") &&
+                                (((MethodReference) fe.Operand).DeclaringType != null) &&
                                 (((MethodReference) fe.Operand).DeclaringType.FullName == "System.IntPtr")
                                 )
                             {
@@ -97,11 +104,11 @@ namespace Arkane.KSP.X64Unfixer
 
                 assembly.Write (filepath);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine ("Error rewriting assembly: {0}", ex.Message);
-                return;
-            }
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine ("Error rewriting assembly: {0}", ex.Message);
+            //    return;
+            //}
 
             Console.WriteLine ("Operation completed.");
         }
