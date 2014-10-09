@@ -45,13 +45,6 @@ namespace Arkane.KSP.X64Unfixer
 
             try
             {
-
-                ModuleDefinition corlib = ModuleDefinition.ReadModule (typeof (object).Module.FullyQualifiedName);
-                TypeDefinition intDefinition = corlib.GetType ("System.Int32");
-                TypeDefinition intptrDefinition = corlib.GetType ("System.IntPtr");
-                PropertyDefinition sizeDefinition = intptrDefinition.Properties.Single (pd => pd.Name == "Size");
-                MethodDefinition getDefinition = sizeDefinition.GetMethod;
-
                 // Iterate through every single type in the module.
                 foreach (var td in assembly.MainModule.Types)
                 {
@@ -74,7 +67,9 @@ namespace Arkane.KSP.X64Unfixer
                         {
                             if ((fe.OpCode == OpCodes.Call) &&
                                 (fe.Operand != null) &&
-                                (((MethodReference) fe.Operand).Name == "get_Size"))
+                                (((MethodReference) fe.Operand).Name == "get_Size") &&
+                                (((MethodReference) fe.Operand).DeclaringType.FullName == "System.IntPtr")
+                                )
                             {
                                 Console.WriteLine ("    System.IntPtr reference found, replacing...");
 
@@ -105,11 +100,10 @@ namespace Arkane.KSP.X64Unfixer
             catch (Exception ex)
             {
                 Console.WriteLine ("Error rewriting assembly: {0}", ex.Message);
+                return;
             }
 
             Console.WriteLine ("Operation completed.");
-
-            Console.ReadLine ();
         }
     }
 }
