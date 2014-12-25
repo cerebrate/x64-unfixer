@@ -43,7 +43,7 @@ namespace Arkane.KSP.X64Unfixer
 
             // So now we hack.
 
-            string kspDir = @"C:\Program Files (x86)\Steam\SteamApps\common\Kerbal Space Program";
+            string kspDir = FindKsp () ;
 
             // Add the KSP subdirectory to the resolver base path.
             string assemblyDir = Path.Combine (kspDir, @"KSP_x64_Data\Managed");
@@ -151,5 +151,43 @@ namespace Arkane.KSP.X64Unfixer
 
             Console.WriteLine ("Operation completed.") ;
         }
+
+        public static string FindKsp ()
+        {
+            if ((Environment.OSVersion.Platform != PlatformID.Win32NT) ||
+                (!Environment.Is64BitOperatingSystem))
+            {
+                Console.WriteLine("Sorry, I only run on Windows x64 platforms.");
+                Console.WriteLine ("Why would you need me for non-win64 anyway?");
+                Environment.Exit(1);
+            }
+
+            string kspDir = null;
+
+            var uninstallWowKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey (@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
+
+            if (uninstallWowKey == null)
+                throw new InvalidOperationException("FATALITY: Cannot find add/remove programs key.");
+
+            foreach (var kn in uninstallWowKey.GetSubKeyNames ())
+            {
+                var k = uninstallWowKey.OpenSubKey (kn) ;
+                if (k.GetValue ("DisplayName") as string == "Kerbal Space Program")
+                {
+                    kspDir = k.GetValue ("InstallLocation") as string ;
+                    break ;
+                }
+            }
+
+            if (kspDir == null)
+            {
+                Console.WriteLine("FATALITY: KSP not installed or could not find install location.");
+                Environment.Exit(2);
+            }
+
+            Console.WriteLine ("KSP found at: {0}", kspDir);
+          
+            return kspDir;
+        } 
     }
 }
