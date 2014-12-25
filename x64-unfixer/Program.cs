@@ -42,12 +42,22 @@ namespace Arkane.KSP.X64Unfixer
                                          ".old") ;
 
             // So now we hack.
+
+            string kspDir = @"C:\Program Files (x86)\Steam\SteamApps\common\Kerbal Space Program";
+
+            // Add the KSP subdirectory to the resolver base path.
+            string assemblyDir = Path.Combine (kspDir, @"KSP_x64_Data\Managed");
+            var resolver = new DefaultAssemblyResolver () ;
+            resolver.AddSearchDirectory(assemblyDir);
+
             // Load in the assembly.
             AssemblyDefinition assembly ;
 
             try
             {
-                assembly = AssemblyDefinition.ReadAssembly (filepath, new ReaderParameters (ReadingMode.Immediate)) ;
+                var rParam = new ReaderParameters (ReadingMode.Immediate) {AssemblyResolver = resolver} ;
+
+                assembly = AssemblyDefinition.ReadAssembly (filepath, rParam) ;
             }
             catch (Exception ex)
             {
@@ -126,6 +136,7 @@ namespace Arkane.KSP.X64Unfixer
                 {
                     File.Move (filepath, oldpath) ;
                     Console.WriteLine ("Saved backup of unmodified assembly as: {0}", oldpath) ;
+
                     assembly.Write (filepath) ;
                     Console.WriteLine ("Wrote cracked assembly as: {0}", filepath) ;
                 }
