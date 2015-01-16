@@ -152,7 +152,7 @@ namespace Arkane.KSP.X64Unfixer
             Console.WriteLine ("Operation completed.") ;
         }
 
-        public static string FindKsp ()
+        private static string FindKsp ()
         {
             if ((Environment.OSVersion.Platform != PlatformID.Win32NT) ||
                 (!Environment.Is64BitOperatingSystem))
@@ -181,8 +181,17 @@ namespace Arkane.KSP.X64Unfixer
 
             if (kspDir == null)
             {
-                Console.WriteLine("FATALITY: KSP not installed or could not find install location.");
-                Environment.Exit(2);
+                // If we can't find the install that way, fall back to checking if we are in it.
+                Console.WriteLine ("Cannot locate KSP; not a Steam install. Trying local directory...") ;
+
+                kspDir = Environment.CurrentDirectory ;
+
+                if (!(File.Exists (Path.Combine (kspDir, "KSP.exe"))))
+                {
+                    Console.WriteLine ("FATALITY: KSP not installed or could not find install location.") ;
+                    Console.WriteLine ("On non-Steam installs, x64-unfixer MUST be run from the main game directory (where KSP.EXE is located).");
+                    Environment.Exit (2) ;
+                }
             }
 
             Console.WriteLine ("KSP found at: {0}", kspDir);
