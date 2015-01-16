@@ -1,6 +1,8 @@
 x64-unfixer
 ===========
 
+NOTE: The best way to install x64-unfixer is via Chocolatey: https://chocolatey.org/packages/x64-unfixer
+
 Unfixes KSP mods that use CompatibilityChecker to prevent themselves from running on Windows x64.
 
 Run:
