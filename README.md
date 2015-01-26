@@ -1,6 +1,8 @@
 x64-unfixer
 ===========
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cerebrate/x64-unfixer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 NOTE: The best way to install x64-unfixer is via Chocolatey: https://chocolatey.org/packages/x64-unfixer
 
 Unfixes KSP mods that use CompatibilityChecker to prevent themselves from running on Windows x64.
