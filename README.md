@@ -58,3 +58,10 @@ If it's the "but using them is okay, it's just writing them and letting other pe
 *But...*
 
 Go away.
+
+Also Available
+--------------
+
+If you're looking for a UI to help you use x64-unfixer on multiple mods at once, jrodrigv has written one which you can find  here:
+
+https://github.com/jrodrigv/KSPx64TotalUnfixer/
